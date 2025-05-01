@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+# Initialise environment variables
+env = environ.Env(
+	DB_USERNAME=(str,'xyz'),
+	DB_PASSWORD=(str,'xyz'),
+	DB_HOST=(str,'xyz')
+)
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,8 +82,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',
+        'USER': env('DB_USERNAME','xyz'),
+        'PASSWORD': env('DB_PASSWORD','xyz'),
+        'HOST': env('DB_HOST','xyz'),
+        'PORT': '5432'
     }
 }
 
